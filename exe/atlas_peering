@@ -7,4 +7,4 @@ $LOAD_PATH.unshift(gem_lib) unless $LOAD_PATH.include?(gem_lib)
 
 require 'atlas_peering'
 
-puts AtlasPeering::CLI.run(ARGV)
+AtlasPeering::CLI.run(ARGV)

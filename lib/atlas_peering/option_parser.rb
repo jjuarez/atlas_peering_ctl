@@ -12,7 +12,7 @@ module AtlasPeering
         opts.banner = "Usage: atlas_peering"
 
         opts.on("-c", "--config CONFIG FILE", String, "The peering config file") do |config|
-          options[:config] = configº
+          options[:config] = config
         end
 
         opts.on("-C", "--command [COMMAND]", String, "The command to execute") do |command|
@@ -21,7 +21,7 @@ module AtlasPeering
 
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts
-          exit
+          exit 0
         end
       end
 

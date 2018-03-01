@@ -14,7 +14,11 @@ module AtlasPeering
     end
 
     def list(group_id)
-      self.class.get("/groups/#{group_id}/peers", { digest_auth: @auth })
+      options = {
+        digest_auth: @auth
+      }
+
+      self.class.get("/groups/#{group_id}/peers", options)
     end
 
     def create(group_id, data)

@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 require 'httparty'
 require 'json'
-
 
 module AtlasPeering
   class Client
@@ -10,20 +11,16 @@ module AtlasPeering
 
     def initialize(username, password)
       @auth = { username: username, password: password }
-      self
     end
 
     def list(group_id)
-      options = {
-        digest_auth: @auth
-      }
-
+      options = { digest_auth: @auth }
       self.class.get("/groups/#{group_id}/peers", options)
     end
 
     def create(group_id, data)
       options = {
-        headers: { "Content-Type" =>"application/json" },
+        headers: { 'Content-Type': 'application/json' },
         digest_auth: @auth,
         body: data.to_json
       }

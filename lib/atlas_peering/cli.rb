@@ -21,7 +21,7 @@ module AtlasPeering
     end
 
     def self.run(arguments)
-      exit_code = DEFAULT_ERROR_CODE
+      exit_code = 1
       options   = AtlasPeering::Optionparser.parse(arguments)
       config    = ::YAML.load_file(options[:config])
       logger    = AtlasPeering::CLI.configure_logger

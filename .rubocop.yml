@@ -1,3 +1,15 @@
+Lint/UnusedMethodArgument:
+  Exclude:
+    - 'lib/atlas/peering/proxy.rb'
+
+Lint/Void:
+  Exclude:
+    - 'lib/atlas/peering/create.rb'
+    - 'lib/atlas/peering/list.rb'
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
 Metrics/AbcSize:
   Max: 25
 
@@ -7,5 +19,5 @@ Metrics/MethodLength:
 Metrics/LineLength:
   Max: 132
 
-Style/RaiseArgs:
-  EnforcedStyle: compact
+Metrics/CyclomaticComplexity:
+  Max: 7

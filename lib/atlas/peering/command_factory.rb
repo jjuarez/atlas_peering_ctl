@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Atlas
   module Peering
     ##
-    # class: Atlas::Peering::CommandFactory: The command factory class
+    # class: Atlas::Peering::CommandFactory - The command factory class
     class CommandFactory
       def self.create(command, proxy)
         case command

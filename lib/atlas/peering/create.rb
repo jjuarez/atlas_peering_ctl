@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 module Atlas
   module Peering
+    ##
+    # class: Atlas::Peering::Create - The create command
     class Create
       def initialize(proxy)
         @proxy = proxy

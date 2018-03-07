@@ -28,7 +28,7 @@ module Atlas
           digest_auth: @auth }
       end
 
-      def list(group_id)
+      def list(group_id, data = {})
         options = basic_options
 
         self.class.get("/groups/#{group_id}/peers", options)

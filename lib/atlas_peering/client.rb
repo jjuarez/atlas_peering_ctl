@@ -4,6 +4,8 @@ require 'httparty'
 require 'json'
 
 module AtlasPeering
+  ##
+  # class: AtlasPeering::Client: The Atlas MongoDB client interface
   class Client
     include HTTParty
 

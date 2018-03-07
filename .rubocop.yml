@@ -1,0 +1,11 @@
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/LineLength:
+  Max: 132
+
+Style/RaiseArgs:
+  EnforcedStyle: compact

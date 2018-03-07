@@ -3,6 +3,8 @@
 require 'optparse'
 
 module AtlasPeering
+  ##
+  # class: AtlasPeering::OptionParser: The command arguments parser
   class Optionparser
     def self.parse(_arguments, defaults = {})
       options = defaults

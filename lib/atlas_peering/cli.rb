@@ -6,6 +6,8 @@ require 'atlas_peering/option_parser'
 require 'atlas_peering/client'
 
 module AtlasPeering
+  ##
+  # class: AtlasPeering::CLI: The command line interface class
   class CLI
     def self.config_to_data(config)
       { 'vpcId':               config['vpcId'],

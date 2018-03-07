@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 # frozen_string_literal: true
 
 gem_lib = File.expand_path('../../lib', __FILE__)

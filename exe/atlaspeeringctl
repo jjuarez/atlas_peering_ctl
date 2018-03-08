@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
-# coding: utf-8
 # frozen_string_literal: true
 
 gem_lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(gem_lib) unless $LOAD_PATH.include?(gem_lib)
 
-require 'atlas_peering'
+require 'atlas'
 
-AtlasPeering::CLI.run(ARGV)
+Atlas::Peering::CLI.run(ARGV)

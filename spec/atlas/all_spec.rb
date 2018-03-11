@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe Atlas::Peering do
+RSpec.describe Atlas do
   it 'has a version number' do
-    expect(Atlas::Peering::VERSION).not_to be nil
+    expect(Atlas::VERSION).not_to be nil
   end
 end

@@ -4,8 +4,7 @@ Lint/UnusedMethodArgument:
 
 Lint/Void:
   Exclude:
-    - 'lib/atlas/peering/commander.rb'
-    - 'lib/atlas/peering/client.rb'
+    - 'lib/atlas/client.rb'
 
 Style/RaiseArgs:
   EnforcedStyle: compact

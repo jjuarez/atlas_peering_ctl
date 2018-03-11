@@ -8,12 +8,12 @@ module Atlas
   module Config
     @config = nil
 
-    def self.init
+    def self.config
       @config ||= {}
     end
 
     def self.configure(source = nil)
-      @config || Config.init
+      config
 
       case source
       when /\.(yml|yaml)$/i then
@@ -28,7 +28,7 @@ module Atlas
     end
 
     def self.inspect
-      @config || Config.init
+      config
       @config.inspect
     end
 
@@ -38,7 +38,7 @@ module Atlas
     end
 
     def self.fetch(key, default_value = nil)
-      @config || Config.init
+      config
       if @config.keys.include?(key)
         @config[key]
       else
@@ -51,7 +51,7 @@ module Atlas
     end
 
     def self.method_missing(method, *arguments, &block)
-      @config || Config.init
+      config
 
       method_str = method.to_s
 

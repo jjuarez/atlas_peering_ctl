@@ -77,4 +77,3 @@ module Atlas
     end
   end
 end
-

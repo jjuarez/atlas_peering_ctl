@@ -10,16 +10,16 @@ module Atlas
     class Client
       DEFAULT_ATLAS_URL = 'https://cloud.mongodb.com/api/atlas/v1.0'
       HEADERS           = {
-        'Content-Type': 'application/json',
-        'User-Agent':   'Httparty'
+        'Content-Type' =>'application/json',
+        'User-Agent'   =>'Httparty'
       }.freeze
 
       def self.payload(data)
         {
-          vpcId:               data.vpc_id,
-          awsAccountId:        data.aws_account_id,
-          routeTableCidrBlock: data.route_table_cidr_block,
-          containerId:         data.container_id
+          "vpcId":               data.vpc_id,
+          "awsAccountId":        data.aws_account_id,
+          "routeTableCidrBlock": data.route_table_cidr_block,
+          "containerId":         data.container_id
         }.to_json
       end
 
@@ -44,14 +44,14 @@ module Atlas
       end
 
       def list(_data = {})
-        HTTParty.get(@peers_endpoint, basic_options).parsed_response
+        HTTParty.get(@peers_endpoint, basic_options)
       end
 
       def create(data)
         call_options        = basic_options
         call_options[:body] = Client.payload(data)
 
-        HTTParty.post(@peers_endpoint, call_options).parsed_response
+        HTTParty.post(@peers_endpoint, call_options)
       end
     end
   end

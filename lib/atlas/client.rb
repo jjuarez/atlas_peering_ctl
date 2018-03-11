@@ -13,24 +13,20 @@ module Atlas
       'User-Agent'   => 'Httparty'
     }.freeze
 
-    def initialize(user_name, api_key, group_id, debug = false)
+    def initialize(user_name, api_key, group_id)
       @headers        = HEADERS
       @user_name      = user_name
       @api_key        = api_key
       @peers_endpoint = "#{DEFAULT_ATLAS_URL}/groups/#{group_id}/peers"
-      @debug          = debug
 
       self
     end
 
     def basic_options
-      basic_options = {
+      {
         headers:     @headers,
         digest_auth: { username: @user_name, password: @api_key }
       }
-
-      basic_options[:debug_output] = STDOUT if @debug
-      basic_options
     end
 
     def list(_data = {})
@@ -50,7 +46,7 @@ module Atlas
     end
 
     def delete(data)
-      HTTParty.delete(@peers_endpoint, basic_options)
+      HTTParty.delete("#{@peers_endpoint}/#{data.id}", basic_options)
     end
   end
 end

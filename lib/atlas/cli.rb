@@ -1,39 +1,80 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'atlas/opts_parser'
+require 'thor'
 require 'atlas/config'
-require 'atlas/logger'
 require 'atlas/client'
-require 'atlas/commander'
 
 module Atlas
   DEFAULT_ERROR_CODE = 1
+  LIST_ERROR_CODE    = 2
+  CREATE_ERROR_CODE  = 3
+  DELETE_ERROR_CODE  = 4
 
   ##
   # class: Atlas::CLI: The command line interface class
-  class CLI
-    def self.application_exit(response)
-      exit(1) if response.keys.include?('error')
-      exit(0)
+  class Peering < ::Thor
+    no_commands do
+      def handle_exit(response, exit_code = DEFAULT_ERROR_CODE)
+        if response.keys.include?('error')
+          exit(exit_code)
+        else
+          exit(0)
+        end
+      end
+
+      def out(response)
+        STDOUT.puts(::JSON.pretty_generate(response))
+      end
+
+      def die(exception, error_code)
+        STDERR.puts(exception.backtrace)
+        exit(error_code)
+      end
     end
 
-    def self.run(arguments)
-      options = OptsParser.parse(arguments)
-      logger  = Logger.configure(options[:loglevel])
+    class_option :config, type: :string, aliases: ['-f'], desc: 'The configuration file'
 
-      logger.debug("Load the configuration from file: #{options[:file]}")
-      Config.configure(options[:file])
+    desc 'version', 'Atlas peering CTL version'
+    def version
+      puts Atlas::VERSION
+    end
 
-      logger.debug('Creating the Atlas MongoDB client...')
-      client   = Client.new(Config.user_name, Config.api_key, Config.group_id, options[:debug])
-      response = Commander.new(client).launch(options[:command], Config).parsed_response
+    desc 'list', 'List all the Atlas MongoDB peerings for the configuration given'
+    def list
+      Config.configure(options[:config])
 
-      puts(JSON.pretty_generate(response))
-      CLI.application_exit(response)
+      client   = Client.new(Config.user_name, Config.api_key, Config.group_id)
+      response = client.list(Config).parsed_response
+      out(response)
+      handle_exit(response)
     rescue StandardError => exception
-      STDERR.puts(exception.backtrace)
-      exit(DEFAULT_ERROR_CODE)
+      die(exception, LIST_ERROR_CODE)
+    end
+
+    desc 'create', 'Create a new Atlas MongoDB peering connection based on the configuration given'
+    def create
+      Config.configure(options[:config])
+
+      client   = Client.new(Config.user_name, Config.api_key, Config.group_id)
+      response = client.create(Config).parsed_response
+      out(response)
+      handle_exit(response)
+    rescue StandardError => exception
+      die(exception, CREATE_ERROR_CODE)
+    end
+
+    desc 'delete', 'Delete a Atlas MongoDB peering connection based on the configuration given'
+    def delete(id)
+      Config.configure(options[:config])
+      Config.configure { |c| c.id = id }
+
+      client   = Client.new(Config.user_name, Config.api_key, Config.group_id)
+      response = client.delete(Config).parsed_response
+      handle_exit(response)
+    rescue StandardError => exception
+      die(exception, DELETE_ERROR_CODE)
     end
   end
 end
+

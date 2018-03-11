@@ -10,9 +10,8 @@ module Atlas
     ##
     # class: Atlas::Peering::Commander - The command factory class
     class Commander
-      def initialize(client, logger = nil)
+      def initialize(client)
         @client = client
-        @logger = logger
 
         self
       end
@@ -20,10 +19,8 @@ module Atlas
       def launch(command, data)
         case command
         when :list then
-          @logger&.debug('Launching LIST command')
           @client.list(data)
         when :create then
-          @logger&.debug('Launching CREATE command')
           @client.create(data)
         else
           raise CommandNotImplemented.new(command)

@@ -9,17 +9,13 @@ require 'atlas/peering/commander'
 
 module Atlas
   module Peering
+    DEFAULT_ERROR_CODE = 1
     ##
     # class: Atlas::Peering::CLI: The command line interface class
     class CLI
-      def self.die(logger, exit_code, exception = nil)
-        if logger
-          logger.error(exception.backtrace)
-        else
-          STDERR.puts(exception.backtrace)
-        end
-
-        exit(exit_code)
+      def self.application_exit(response)
+        exit(1) if response.keys.include?('error')
+        exit(0)
       end
 
       def self.run(arguments)
@@ -31,11 +27,13 @@ module Atlas
 
         logger.debug('Creating the Atlas MongoDB client...')
         client   = Client.new(Config.user_name, Config.api_key, Config.group_id, options[:debug])
-        response = Commander.new(client, logger).launch(options[:command], Config)
+        response = Commander.new(client, logger).launch(options[:command], Config).parsed_response
 
-        puts(::JSON.pretty_generate(response))
-      rescue StandardError => e
-        CLI.die(logger, 2, e)
+        puts(JSON.pretty_generate(response))
+        CLI.application_exit(response)
+      rescue StandardError => exception
+        STDERR.puts(exception.backtrace)
+        exit(DEFAULT_ERROR_CODE)
       end
     end
   end

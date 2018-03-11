@@ -1,4 +1,7 @@
 # frozen_string_literal: true
 
-require 'atlas/version'
 require 'atlas/cli'
+
+module Atlas
+  VERSION="0.3.1"
+end

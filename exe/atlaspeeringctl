@@ -6,4 +6,5 @@ $LOAD_PATH.unshift(gem_lib) unless $LOAD_PATH.include?(gem_lib)
 
 require 'atlas'
 
+Process.setproctitle('atlas_peering_ctl')
 Atlas::Peering::CLI.run(ARGV)

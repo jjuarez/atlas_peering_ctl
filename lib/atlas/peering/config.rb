@@ -7,12 +7,14 @@ module Atlas
     ##
     # class: Atlas::Peering::Config: This class helps to handle configuration from YAML files
     module Config
+      @config = nil
+
       def self.init
         @config ||= {}
       end
 
       def self.configure(source = nil)
-        @config || init
+        @config || Config.init
 
         case source
         when /\.(yml|yaml)$/i then
@@ -27,17 +29,17 @@ module Atlas
       end
 
       def self.inspect
-        @config || init
+        @config || Config.init
         @config.inspect
       end
 
       def self.[](key)
-        @config || init
+        @config || Config.init
         @config[key]
       end
 
       def self.fetch(key, default_value = nil)
-        @config || init
+        @config || Config.init
         if @config.keys.include?(key)
           @config[key]
         else
@@ -50,7 +52,7 @@ module Atlas
       end
 
       def self.method_missing(method, *arguments, &block)
-        @config || init
+        @config || Config.init
 
         method_str = method.to_s
 

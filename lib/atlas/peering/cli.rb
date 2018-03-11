@@ -1,57 +1,39 @@
 # frozen_string_literal: true
 
-require 'yaml'
-require 'logger'
 require 'json'
 require 'atlas/peering/opts_parser'
 require 'atlas/peering/config'
-require 'atlas/peering/proxy'
-require 'atlas/peering/command_factory'
-require 'atlas/peering/list'
-require 'atlas/peering/create'
+require 'atlas/peering/logger'
+require 'atlas/peering/client'
+require 'atlas/peering/commander'
 
 module Atlas
   module Peering
+    DEFAULT_ERROR_CODE = 1
     ##
-    # class: AtlasPeering::CLI: The command line interface class
+    # class: Atlas::Peering::CLI: The command line interface class
     class CLI
-      def self.config_to_data
-        { 'vpcId':               Config.vpcId,
-          'awsAccountId':        Config.awsAccountId,
-          'routeTableCidrBlock': Config.routeTableCidrBlock,
-          'containerId':         Config.containerId }
-      end
-
-      def self.configure_logger
-        logger       = ::Logger.new(STDOUT)
-        logger.level = ::Logger::INFO
-        logger
-      end
-
-      def self.die(logger, exit_code, exception = nil)
-        if logger
-          logger.error(exception.message)
-        else
-          STDERR.puts(exception.message)
-        end
-
-        exit(exit_code)
+      def self.application_exit(response)
+        exit(1) if response.keys.include?('error')
+        exit(0)
       end
 
       def self.run(arguments)
-        exit_code = 1
-        logger    = CLI.configure_logger
-        options   = OptsParser.parse(arguments)
-        command   = options[:command].to_sym
+        options = OptsParser.parse(arguments)
+        logger  = Logger.configure(options[:loglevel])
 
+        logger.debug("Load the configuration from file: #{options[:file]}")
         Config.configure(options[:file])
-        proxy = Proxy.new(Config.username, Config.apiKey)
 
-        puts JSON.pretty_generate(CommandFactory.create(command, proxy).execute(Config, CLI.config_to_data))
+        logger.debug('Creating the Atlas MongoDB client...')
+        client   = Client.new(Config.user_name, Config.api_key, Config.group_id, options[:debug])
+        response = Commander.new(client).launch(options[:command], Config).parsed_response
 
-        return exit_code
-      rescue StandardError => e
-        CLI.die(logger, 2, e)
+        puts(JSON.pretty_generate(response))
+        CLI.application_exit(response)
+      rescue StandardError => exception
+        STDERR.puts(exception.backtrace)
+        exit(DEFAULT_ERROR_CODE)
       end
     end
   end

@@ -1,4 +1,7 @@
 # frozen_string_literal: true
 
-require 'atlas/peering/version'
-require 'atlas/peering/cli'
+require 'atlas/cli'
+
+module Atlas
+  VERSION="0.3.1"
+end

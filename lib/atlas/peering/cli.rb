@@ -27,7 +27,7 @@ module Atlas
 
         logger.debug('Creating the Atlas MongoDB client...')
         client   = Client.new(Config.user_name, Config.api_key, Config.group_id, options[:debug])
-        response = Commander.new(client, logger).launch(options[:command], Config).parsed_response
+        response = Commander.new(client).launch(options[:command], Config).parsed_response
 
         puts(JSON.pretty_generate(response))
         CLI.application_exit(response)

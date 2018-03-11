@@ -4,8 +4,8 @@ Lint/UnusedMethodArgument:
 
 Lint/Void:
   Exclude:
-    - 'lib/atlas/peering/create.rb'
-    - 'lib/atlas/peering/list.rb'
+    - 'lib/atlas/peering/commander.rb'
+    - 'lib/atlas/peering/client.rb'
 
 Style/RaiseArgs:
   EnforcedStyle: compact
@@ -14,7 +14,7 @@ Metrics/AbcSize:
   Max: 25
 
 Metrics/MethodLength:
-  Max: 25
+  Max: 50
 
 Metrics/LineLength:
   Max: 132

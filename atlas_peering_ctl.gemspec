@@ -6,7 +6,7 @@ require 'atlas'
 
 Gem::Specification.new do |spec|
   spec.name          = 'atlas_peering_ctl'
-  spec.version       = ::Atlas::Peering::VERSION
+  spec.version       = ::Atlas::VERSION
   spec.authors       = ['Javier Juarez']
   spec.email         = ['javier.juarez@gmail.com']
 
@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'httparty', '0.16.0'
   spec.add_runtime_dependency 'json',     '2.1.0'
+  spec.add_runtime_dependency 'thor',     '0.20.0'
 
   spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'bundler', '~> 1.15'

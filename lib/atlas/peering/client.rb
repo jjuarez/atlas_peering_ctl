@@ -10,8 +10,8 @@ module Atlas
     class Client
       DEFAULT_ATLAS_URL = 'https://cloud.mongodb.com/api/atlas/v1.0'
       HEADERS           = {
-        'Content-Type' =>'application/json',
-        'User-Agent'   =>'Httparty'
+        'Content-Type' => 'application/json',
+        'User-Agent'   => 'Httparty'
       }.freeze
 
       def self.payload(data)

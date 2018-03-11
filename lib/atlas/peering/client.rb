@@ -14,15 +14,6 @@ module Atlas
         'User-Agent'   => 'Httparty'
       }.freeze
 
-      def self.payload(data)
-        {
-          "vpcId":               data.vpc_id,
-          "awsAccountId":        data.aws_account_id,
-          "routeTableCidrBlock": data.route_table_cidr_block,
-          "containerId":         data.container_id
-        }.to_json
-      end
-
       def initialize(user_name, api_key, group_id, debug = false)
         @headers        = HEADERS
         @user_name      = user_name
@@ -49,9 +40,18 @@ module Atlas
 
       def create(data)
         call_options        = basic_options
-        call_options[:body] = Client.payload(data)
+        call_options[:body] = {
+          "vpcId":               data.vpc_id,
+          "awsAccountId":        data.aws_account_id,
+          "routeTableCidrBlock": data.route_table_cidr_block,
+          "containerId":         data.container_id
+        }.to_json
 
         HTTParty.post(@peers_endpoint, call_options)
+      end
+
+      def delete(data)
+        HTTParty.delete(@peers_endpoint, basic_options)
       end
     end
   end

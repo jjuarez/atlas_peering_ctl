@@ -6,7 +6,7 @@ require 'atlas'
 
 Gem::Specification.new do |spec|
   spec.name          = 'atlas_peering_ctl'
-  spec.version       = ::Atlas::Peering::VERSION
+  spec.version       = ::Atlas::VERSION
   spec.authors       = ['Javier Juarez']
   spec.email         = ['javier.juarez@gmail.com']
 

@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-require 'atlas/peering/version'
-require 'atlas/peering/cli'
+require 'atlas/version'
+require 'atlas/cli'

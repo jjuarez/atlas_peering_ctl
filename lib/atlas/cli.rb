@@ -53,8 +53,10 @@ module Atlas
     end
 
     desc 'create', 'Create a new Atlas MongoDB peering connection based on the configuration given'
-    def create
+    option :vpcid, required: true, type: :string, desc: 'The VPC identificator to make the peering'
+    def create()
       Config.configure(options[:config])
+      Config.configure.vpc_id = options[:vpcid]
 
       client   = Client.new(Config.user_name, Config.api_key, Config.group_id)
       response = client.create(Config).parsed_response

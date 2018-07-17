@@ -33,14 +33,13 @@ module Atlas
       end
     end
 
-    class_option :config, type: :string, aliases: ['-f'], desc: 'The configuration file'
-
     desc 'version', 'Atlas peering CTL version'
     def version
       puts Atlas::VERSION
     end
 
     desc 'list', 'List all the Atlas MongoDB peerings for the configuration given'
+    option :config, required: true, type: :string, aliases: ['-f'], desc: 'The VPC identificator to make the peering'
     def list
       Config.configure(options[:config])
 
@@ -53,6 +52,7 @@ module Atlas
     end
 
     desc 'create', 'Create a new Atlas MongoDB peering connection based on the configuration given'
+    option :config, required: true, type: :string, aliases: ['-f'], desc: 'The VPC identificator to make the peering'
     option :vpcid, required: true, type: :string, desc: 'The VPC identificator to make the peering'
     def create()
       Config.configure(options[:config])
@@ -67,6 +67,7 @@ module Atlas
     end
 
     desc 'delete', 'Delete a Atlas MongoDB peering connection based on the configuration given'
+    option :config, required: true, type: :string, aliases: ['-f'], desc: 'The VPC identificator to make the peering'
     def delete(id)
       Config.configure(options[:config])
       Config.configure { |c| c.id = id }

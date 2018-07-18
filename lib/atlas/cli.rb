@@ -53,8 +53,8 @@ module Atlas
 
     desc 'create', 'Create a new Atlas MongoDB peering connection based on the configuration given'
     option :config, required: true, type: :string, aliases: ['-f'], desc: 'The VPC identificator to make the peering'
-    option :vpcid, required: true, type: :string, desc: 'The VPC identificator to make the peering'
-    def create()
+    option :vpcid,  required: true, type: :string, desc: 'The VPC identificator to make the peering'
+    def create
       Config.configure(options[:config])
       Config.configure.vpc_id = options[:vpcid]
 
@@ -68,9 +68,10 @@ module Atlas
 
     desc 'delete', 'Delete a Atlas MongoDB peering connection based on the configuration given'
     option :config, required: true, type: :string, aliases: ['-f'], desc: 'The VPC identificator to make the peering'
-    def delete(id)
+    option :id,     required: true, type: :string, desc: 'The peering id to delete'
+    def delete
       Config.configure(options[:config])
-      Config.configure { |c| c.id = id }
+      Config.configure { |c| c.id = options[:id] }
 
       client   = Client.new(Config.user_name, Config.api_key, Config.group_id)
       response = client.delete(Config).parsed_response
